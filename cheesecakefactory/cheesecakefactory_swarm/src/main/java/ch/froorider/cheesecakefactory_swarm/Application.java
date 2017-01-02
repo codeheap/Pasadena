@@ -6,6 +6,9 @@ import org.wildfly.swarm.jaxrs.JAXRSArchive;
 
 public class Application {
 
+    private Application() {
+    }
+
     public static void main(String... args) throws Exception {
 
         Swarm swarm = new Swarm();
