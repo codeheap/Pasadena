@@ -1,4 +1,4 @@
-# Pasadena
+# Pasadena  [![Build Status](https://travis-ci.org/codeheap/Pasadena.svg?branch=master)](https://travis-ci.org/codeheap/Pasadena)
 A REST Service based on Wildfly Swarm and Docker
 
 ## Project Pasadena
