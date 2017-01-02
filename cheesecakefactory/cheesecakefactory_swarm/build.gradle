@@ -1,0 +1,69 @@
+buildscript {
+  version = System.getProperty('swarmVersion') ?: '2016.12.1'
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    maven{
+  	  url 'https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/'
+  	}
+  }
+
+  dependencies {
+    classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+    classpath "org.wildfly.swarm:wildfly-swarm-plugin:$version"
+  }
+}
+
+plugins {
+  id "io.spring.dependency-management" version "0.6.1.RELEASE"
+}
+
+apply plugin: 'wildfly-swarm'
+apply plugin: 'java'
+apply plugin: 'application'
+
+project.description = 'Sample Wildfly Swarm self-hosted Pasadena REST Service'
+mainClassName = 'ch.froorider.cheesecakefactory_swarm.Application'
+
+swarm {
+  properties {
+    swarm.http.port = 8181
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven {
+    url 'https://maven.repository.redhat.com/nexus/content/repositories/thirdparty-releases/'
+  }
+  maven{
+    url 'https://repository.jboss.org/nexus/content/repositories/releases/'
+  }
+  maven{
+  	url 'https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/'
+  	}
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.wildfly.swarm:bom-all:$version"
+  }
+}
+
+dependencies{
+  compile "org.wildfly.swarm:jaxrs"
+  compile "org.wildfly.swarm:cdi"
+  compile "org.wildfly.swarm:logging"
+  compile group: 'org.glassfish', name: 'javax.el-impl', version: '3.0.1-b08-jbossorg-1'
+}
+
+task startSwarm(type: Exec){
+  commandLine 'java', '-jar', './build/libs/cheesecakefactory_swarm-swarm.jar'
+}
+
+task printProjectInfo << {
+println 'Running simple task for project ' +
+project.description
+}
