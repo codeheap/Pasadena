@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:3.0.5'
+    }
+}
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+repositories {
+    mavenCentral()
+}
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+docker {
+    url = 'tcp://localhost:2375'
+}
+
+task createDockerfile(type: Dockerfile) {
+    destFile = project.file('build/mydockerfile/Dockerfile')
+    from 'ubuntu:12.04'
+    maintainer 'Benjamin Muschko "benjamin.muschko@gmail.com"'
+}
+
+task copyJar(type: Copy) {
+    from        "../cheesecakefactory_swarm/build/libs/cheesecakefactory_swarm-swarm.jar"
+    into        'docker'
+}
+
+task buildImage(type: DockerBuildImage) {
+    dependsOn copyJar
+    inputDir = project.file('docker')
+    tag = 'codeheap/cheesecakefactory'
+}

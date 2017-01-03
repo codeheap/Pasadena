@@ -11,7 +11,7 @@ buildscript {
 
   dependencies {
     classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
-    classpath "org.wildfly.swarm:wildfly-swarm-plugin:$version"
+    classpath "org.wildfly.swarm:wildfly-swarm-plugin:2016.10.0"
   }
 }
 
@@ -55,7 +55,6 @@ dependencyManagement {
 dependencies{
   compile "org.wildfly.swarm:jaxrs"
   compile "org.wildfly.swarm:cdi"
-  compile "org.wildfly.swarm:logging"
   compile group: 'org.glassfish', name: 'javax.el-impl', version: '3.0.1-b08-jbossorg-1'
 }
 
